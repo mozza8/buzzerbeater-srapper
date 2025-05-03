@@ -1,5 +1,7 @@
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
+import { callScraper, getLastCallScraper } from "./api/Services";
+import { formatTime } from "./utils/formatTime";
 
 const API_ENDPOINT = "/api/start-timer"; // Mock endpoint
 
@@ -9,6 +11,7 @@ export default function TimerApp() {
   const [currentUTC, setCurrentUTC] = useState<string>("");
   const [lastPressedTime, setLastPressedTime] = useState<string>("");
   const [countdown, setCountdown] = useState<number>(0);
+  const [lastTime, setLastTime] = useState<string>("");
 
   useEffect(() => {
     const updateUTC = () => {
@@ -20,6 +23,27 @@ export default function TimerApp() {
     const utcInterval = setInterval(updateUTC, 1000);
     return () => clearInterval(utcInterval);
   }, []);
+
+  useEffect(() => {
+    const getLastTime = async () => {
+      const lastTime = await handleGetLastCalledTime();
+      console.log("lastTime", lastTime);
+      setLastTime(lastTime);
+    };
+
+    getLastTime();
+  }, []);
+
+  const handleGetLastCalledTime = async () => {
+    try {
+      const res: any = await getLastCallScraper();
+      console.log("res", res);
+      return res.lastCall;
+    } catch (error) {
+      console.log(error);
+      return "N/A";
+    }
+  };
 
   useEffect(() => {
     if (isRunning && countdown > 0) {
@@ -56,12 +80,12 @@ export default function TimerApp() {
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const days = Math.floor(seconds / (24 * 60 * 60));
-    const hours = Math.floor((seconds % (24 * 60 * 60)) / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${days}d ${hours}h ${minutes}m ${secs}s`;
+  const handleButtonClick = async () => {
+    if (await callScraper()) {
+      handleClick();
+    } else {
+      return;
+    }
   };
 
   return (
@@ -71,8 +95,10 @@ export default function TimerApp() {
       <h3 className="text-md mb-6">
         Last Button Pressed: {lastPressedTime || "N/A"}
       </h3>
+
+      <h3 className="text-md mb-6">Last Time: {lastTime || "N/A"}</h3>
       <Button
-        onClick={handleClick}
+        onClick={handleButtonClick}
         disabled={isRunning}
         className="px-4 py-2 text-lg"
       >
