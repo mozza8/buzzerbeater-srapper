@@ -2,8 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import re
-import pandas as pd
-import csv
 
 def get_drvier():
   # Set options to make browsing easier
@@ -74,7 +72,7 @@ def main():
 
     vodenje = driver.find_element(by='id',
                                   value=f'cphContent_rptListedPlayers_SkillTable_{x}_sdhandling_{x}_linkDen_{x}')
-    igrac['vodenjeŽoge'] = vodenje.get_attribute('title')
+    igrac['vodenjeZoge'] = vodenje.get_attribute('title')
 
     prodiranje = driver.find_element(by='id',
                                      value=f'cphContent_rptListedPlayers_SkillTable_{x}_sddriving_{x}_linkDen_{x}')
@@ -102,7 +100,7 @@ def main():
 
     vzdržljivost = driver.find_element(by='id',
                                        value=f'cphContent_rptListedPlayers_SkillTable_{x}_sdstamina_{x}_linkDen_{x}')
-    igrac['vzdržljivost'] = vzdržljivost.get_attribute('title')
+    igrac['vzdrzljivost'] = vzdržljivost.get_attribute('title')
 
     prosti = driver.find_element(by='id',
                                  value=f'cphContent_rptListedPlayers_SkillTable_{x}_sdfreeThrow_{x}_linkDen_{x}')
@@ -149,7 +147,7 @@ def main():
   return players
 
 
-main()
+
 
 
 

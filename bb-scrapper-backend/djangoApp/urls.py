@@ -4,4 +4,5 @@ from . import views
 
 urlpatterns = [
     path('scrape/', views.call_scraper, name='call_scraper'),
+    path('lastCall/', views.getLastScraperCall, name='getLastScraperCall'),
 ]

@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djangoApp',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -47,8 +52,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'djangoApp.urls'
 
 TEMPLATES = [
@@ -69,20 +77,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djangoApp.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Use mysql if you prefer
-        'NAME': 'your_db_name',
-        'USER': 'your_db_user',
-        'PASSWORD': 'your_db_password',
-        'HOST': 'your_rds_endpoint',
-        'PORT': '5432',  # Default PostgreSQL port
-    }
-}
+#DATABASES = {
+#    'default': {
+ #      'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Use mysql if you prefer
+ #       'NAME': os.getenv('DATABASE_NAME'),
+ #       'USER': os.getenv('DATABASE_USER'),
+ #       'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+#        'HOST': os.getenv('DATABASE_HOST'),
+#        'PORT': '5432',  # Default PostgreSQL port
+#    }
+#}
 
 
 # Password validation
