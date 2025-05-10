@@ -43,7 +43,7 @@ const ListOfPlayers = ({}: ListOfPlayersProps) => {
   };
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage);

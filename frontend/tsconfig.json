@@ -4,5 +4,13 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "lib": ["WebWorker"]
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "lib": ["WebWorker"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
 }
