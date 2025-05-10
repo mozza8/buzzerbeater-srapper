@@ -109,7 +109,7 @@ def main():
     return igrac
 
   # RANGE HERE IS NUMBER OF PAGES
-  for i in range(3):
+  for i in range(1):
     # RANGE HERE IS PLAYERS PER PAGE === MAX IS 10
     for x in range(10):
       y = x+1
@@ -126,6 +126,7 @@ def main():
       match = re.search(r"\((\d+)\)", headerText)
       id = match.group(1)
 
+      print(splittedText)
       # GET PLAYER DATA STATS
       igrac = getPlayerData(splittedText, id)
 
@@ -136,7 +137,6 @@ def main():
     driver.find_element(by="id", value="cphContent_btnNextPage").click()
     time.sleep(2)
 
-  print('Players:',players)
 
   #df = pd.DataFrame(players)
 

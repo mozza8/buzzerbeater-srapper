@@ -2,7 +2,7 @@ from django.db import models
 
 class ScraperIgralci(models.Model):
     id = models.AutoField(primary_key=True)
-    idIgralca = models.IntegerField()
+    id_igralca = models.IntegerField()
     placa = models.IntegerField()
     starost = models.IntegerField()
     visina = models.IntegerField()
@@ -20,12 +20,18 @@ class ScraperIgralci(models.Model):
     vzdrzljivost = models.IntegerField()
     prostiMeti = models.IntegerField()
 
+    class Meta:
+        db_table = 'igralci'
+
     def __str__(self):
-        return self.placa
+        return self.potencial
 
 class timeOfScraperCall(models.Model):
     id = models.AutoField(primary_key=True)
     timeStamp = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'time_of_call'
 
     def __str__(self):
         return self.timeStamp

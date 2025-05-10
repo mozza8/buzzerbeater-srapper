@@ -80,16 +80,16 @@ WSGI_APPLICATION = 'djangoApp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
- #      'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Use mysql if you prefer
- #       'NAME': os.getenv('DATABASE_NAME'),
- #       'USER': os.getenv('DATABASE_USER'),
- #       'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-#        'HOST': os.getenv('DATABASE_HOST'),
-#        'PORT': '5432',  # Default PostgreSQL port
-#    }
-#}
+DATABASES = {
+    'default': {
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Use mysql if you prefer
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': '5432',  # Default PostgreSQL port
+    }
+}
 
 
 # Password validation
