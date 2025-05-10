@@ -1,5 +1,5 @@
 # frontend/Dockerfile
-FROM node:24-slim
+FROM node:20
 
 WORKDIR /app
 
@@ -9,6 +9,8 @@ RUN yarn install
 COPY frontend/ .
 
 RUN yarn build
+
+EXPOSE 3000
 
 # Serve with a simple server (like serve or nginx)
 RUN yarn global add serve
