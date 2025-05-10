@@ -1,4 +1,4 @@
-const backendUrl = process.env.BASE_URL;
+const backendUrl = import.meta.env.VITE_API_URL;
 
 export const callScraper = async () => {
   try {
@@ -29,9 +29,9 @@ export const getPlayers = async () => {
     const res = await fetch(`${backendUrl}/players/`);
     if (!res.ok) throw new Error("Request failed");
     data = await res.json();
+    console.log("data", data);
   } catch (err) {
-    return false;
   } finally {
-    return data;
+    return data.players;
   }
 };
