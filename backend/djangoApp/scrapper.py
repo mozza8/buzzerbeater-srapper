@@ -6,6 +6,9 @@ import re
 def get_drvier():
   # Set options to make browsing easier
   options = webdriver.ChromeOptions()
+  options.add_argument("--headless")
+  options.add_argument("--no-sandbox")
+  options.add_argument("--disable-dev-shm-usage")
   options.add_argument("disable-infobars")
   options.add_argument("start-maximized")
   options.add_argument("disable-dev-shm-usage")
@@ -143,6 +146,7 @@ def main():
   # Save to CSV
   #df.to_csv("output.csv", index=False)
 
+  driver.quit()
 
   return players
 
