@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import re
+import tempfile
+
 
 def get_drvier():
   # Set options to make browsing easier
@@ -15,6 +17,10 @@ def get_drvier():
   options.add_argument("no-sandbox")
   options.add_experimental_option("excludeSwitches", ["enable-automation"])
   options.add_argument("disable-blink-features=AutomationControlled")
+
+  # Create a temp profile directory for Chrome
+  user_data_dir = tempfile.mkdtemp()
+  options.add_argument(f"--user-data-dir={user_data_dir}")
 
   driver = webdriver.Chrome(options=options)
   driver.get("https://www.buzzerbeater.com/default.aspx?lang=sl-SI")
