@@ -3,7 +3,7 @@ FROM python:3.13-slim
 
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies + Chrome
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget curl gnupg unzip build-essential python3-dev \
     libnss3 libxss1 libasound2 libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 \
@@ -16,13 +16,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ENV PATH="/usr/lib/chromium/:${PATH}"
 
+# Copy files early to make caching effective
 COPY requirements.txt .
 
-# Upgrade pip, setuptools, wheel (important for modern builds)
 RUN pip install --upgrade pip setuptools wheel
-
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy project files
 COPY . .
 
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+# Make sure the entrypoint is executable
+RUN chmod +x /app/entrypoint.sh
+
+# Entrypoint handles migrate and runserver
+ENTRYPOINT ["/app/entrypoint.sh"]
