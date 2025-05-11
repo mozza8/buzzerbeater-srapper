@@ -26,7 +26,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Make sure the entrypoint is executable
-RUN chmod +x /app/entrypoint.sh
-
-# Entrypoint handles migrate and runserver
-ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
