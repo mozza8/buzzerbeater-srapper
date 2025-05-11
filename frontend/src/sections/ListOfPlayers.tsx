@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPlayers } from "../api/Services";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from "@mui/material";
+import PlayerTable from "./PlayerTable";
+import { Box, Pagination } from "@mui/material";
 
 type ListOfPlayersProps = {};
 
@@ -18,6 +10,8 @@ const ListOfPlayers = ({}: ListOfPlayersProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [paginationPlayers, setPaginationPlayers] = useState([]);
+
+  const rows = 100;
 
   useEffect(() => {
     const getAllPlayers = async () => {
@@ -30,11 +24,14 @@ const ListOfPlayers = ({}: ListOfPlayersProps) => {
 
   useEffect(() => {
     if (players) {
-      changePlayerList(page, rowsPerPage);
+      changePlayerList(page, rows);
     }
   }, [players]);
 
   const changePlayerList = (page: number, rows: number) => {
+    if (page !== 0) {
+      page = page - 1;
+    }
     const paginated = page * rows + rows;
 
     const newPlayers = players.slice(page * rows, paginated);
@@ -43,11 +40,13 @@ const ListOfPlayers = ({}: ListOfPlayersProps) => {
   };
 
   const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.ChangeEvent<unknown> | null,
     newPage: number
   ) => {
     setPage(newPage);
-    changePlayerList(newPage, rowsPerPage);
+
+    console.log("newPage", newPage);
+    changePlayerList(newPage, rows);
   };
 
   const handleChangeRowsPerPage = (
@@ -58,60 +57,24 @@ const ListOfPlayers = ({}: ListOfPlayersProps) => {
     changePlayerList(0, parseInt(event.target.value, 10));
   };
 
-  const tableColumns = [
-    "ID Igralca",
-    "Placa",
-    "Starost",
-    "Visina",
-    "Potencial",
-    "Met Iz Skoka",
-    "Razdalja Meta",
-    "Zunajna Obramba",
-    "Vodenje Žoge",
-    "Prodiranje",
-    "Podajanje",
-    "Met pod Košem",
-    "Obramba pod Košem",
-    "Skok",
-    "Blokade",
-    "Vzdržljivost",
-    "Prosti Meti",
-  ];
-
-  console.log("paginationPlayers", paginationPlayers);
-
   return (
-    paginationPlayers && (
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {tableColumns.map((column) => (
-                <TableCell>{column}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginationPlayers.map((player) => (
-              <TableRow>
-                {Object.values(player).map((playerValue: any, index) => {
-                  if (index === 0) return;
-                  return <TableCell>{playerValue}</TableCell>;
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component="div"
-          count={players.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
-    )
+    <Box>
+      <Pagination
+        count={10}
+        variant="outlined"
+        shape="rounded"
+        onChange={handleChangePage}
+      />
+
+      <PlayerTable
+        page={page}
+        paginationPlayers={paginationPlayers}
+        players={players}
+        rowsPerPage={rowsPerPage}
+        handleChangePage={handleChangePage}
+        handleChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </Box>
   );
 };
 

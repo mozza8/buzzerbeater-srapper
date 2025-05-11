@@ -3,10 +3,15 @@ import CountDown from "../CountDown";
 import { countdownFromDate } from "../utils/formatTime";
 import { getLastCallScraper } from "../api/Services";
 
-const Timing = () => {
+type TimingProps = {
+  setIsCountdownActive: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Timing = ({ setIsCountdownActive }: TimingProps) => {
   const [currentUTC, setCurrentUTC] = useState<string>("");
   const [countdown, setCountdown] = useState<number[]>([]);
   const [lastTime, setLastTime] = useState<string>("");
+  const [lastTimeDate, setLastTimeDate] = useState<string | null>(null);
 
   const handleGetLastCalledTime = async () => {
     try {
@@ -21,13 +26,7 @@ const Timing = () => {
 
   useEffect(() => {
     setInterval(() => {
-      setCountdown(countdownFromDate(lastTime));
-    }, 1000);
-  }, [countdown]);
-
-  useEffect(() => {
-    setInterval(() => {
-      setCountdown(countdownFromDate(lastTime));
+      setCountdown(countdownFromDate(lastTime, setIsCountdownActive));
     }, 1000);
   }, [countdown]);
 
@@ -50,6 +49,8 @@ const Timing = () => {
     const getLastTime = async () => {
       const lastTime = await handleGetLastCalledTime();
       setLastTime(lastTime);
+      const dateTime = new Date(lastTime).toUTCString();
+      setLastTimeDate(dateTime);
     };
 
     getLastTime();
@@ -59,7 +60,7 @@ const Timing = () => {
     <>
       <CountDown countdown={countdown} />
       <h2 className="text-lg mb-2">Current UTC Time: {currentUTC}</h2>
-      <h3 className="text-md mb-6">Last Time: {lastTime || "N/A"}</h3>
+      <h3 className="text-md mb-6">Last Time: {lastTimeDate || "N/A"}</h3>
     </>
   );
 };

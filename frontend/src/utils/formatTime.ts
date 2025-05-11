@@ -6,7 +6,14 @@ export const formatTime = (seconds: number) => {
   return `${days}d ${hours}h ${minutes}m ${secs}s`;
 };
 
-export const countdownFromDate = (lastCallDate: string): number[] => {
+export const countdownFromDate = (
+  lastCallDate: string,
+  setIsCountdownActive: React.Dispatch<React.SetStateAction<boolean>>
+): number[] => {
+  if (!lastCallDate) {
+    return [99, 99, 99, 99];
+  }
+
   // Parse the provided date string
   const targetDate: Date = new Date(lastCallDate);
 
@@ -28,6 +35,10 @@ export const countdownFromDate = (lastCallDate: string): number[] => {
     (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
   ); // Minutes left
   const seconds: number = Math.floor((timeRemaining % (1000 * 60)) / 1000); // Seconds left
+
+  if (days + hours + minutes + seconds > 0) {
+    setIsCountdownActive(true);
+  }
 
   return [days, hours, minutes, seconds];
 };
