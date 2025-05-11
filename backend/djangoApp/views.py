@@ -60,8 +60,6 @@ def save_scraper_data(data):
 def saveTimeOfTheCall():
     current_time = timezone.now()
 
-    print('current time:', current_time)
-
     scraper_call = timeOfScraperCall(timeStamp=current_time)
     scraper_call.save()
 
@@ -70,6 +68,9 @@ def saveTimeOfTheCall():
 # Pridobi podatke iz baze za zadnji klic
 def getLastScraperCall(request):
     last_call = timeOfScraperCall.objects.last()
+
+    if last_call is None:
+        return JsonResponse({"lastCall": None, "message": "No scraper calls found"}, status=200)
 
     parsed = datetime.fromisoformat(last_call.timeStamp)
     json.dumps({"last_call": parsed.isoformat()})

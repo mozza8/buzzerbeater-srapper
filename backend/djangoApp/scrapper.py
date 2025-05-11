@@ -135,7 +135,6 @@ def main():
       match = re.search(r"\((\d+)\)", headerText)
       id = match.group(1)
 
-      print(splittedText)
       # GET PLAYER DATA STATS
       igrac = getPlayerData(splittedText, id)
 
