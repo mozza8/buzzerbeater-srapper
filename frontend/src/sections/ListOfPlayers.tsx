@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPlayers } from "../api/Services";
 import PlayerTable from "./PlayerTable";
-import { Box, Pagination } from "@mui/material";
+import { Box, Pagination, Stack, Typography } from "@mui/material";
 
 type ListOfPlayersProps = {};
 
@@ -59,13 +59,18 @@ const ListOfPlayers = ({}: ListOfPlayersProps) => {
 
   return (
     <Box>
-      <Pagination
-        count={10}
-        variant="outlined"
-        shape="rounded"
-        onChange={handleChangePage}
-      />
-
+      <Stack direction="row" justifyContent="space-between" mb={0.5}>
+        <Pagination
+          count={10}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleChangePage}
+        />
+        <Stack direction="row" alignItems={"flex-end"} spacing={1} mr={1}>
+          <Typography fontWeight={800}>Number of players:</Typography>
+          <Typography fontWeight={800}>{players.length}</Typography>
+        </Stack>
+      </Stack>
       <PlayerTable
         page={page}
         paginationPlayers={paginationPlayers}

@@ -118,7 +118,7 @@ def main():
     return igrac
 
   # RANGE HERE IS NUMBER OF PAGES
-  for i in range(94):
+  for i in range(10):
     # RANGE HERE IS PLAYERS PER PAGE === MAX IS 10
     for x in range(10):
       y = x+1
